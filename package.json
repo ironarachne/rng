@@ -1,0 +1,30 @@
+{
+  "name": "@ironarachne/rng",
+  "version": "1.0.0",
+  "description": "Random number generation and selection of items from arrays.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironarachne/rng.git"
+  },
+  "keywords": [
+    "random"
+  ],
+  "author": "Ben Overmyer <ben@overmyer.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ironarachne/rng/issues"
+  },
+  "homepage": "https://github.com/ironarachne/rng#readme",
+  "dependencies": {
+    "random": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
