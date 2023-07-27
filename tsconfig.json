@@ -2,11 +2,12 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
-    "module": "commonjs",
+    "module": "NodeNext",
     "outDir": "./dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5",
+    "target": "es2021",
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": ["node_modules", "tests", "dist"]
 }
