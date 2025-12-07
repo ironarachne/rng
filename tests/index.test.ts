@@ -38,6 +38,20 @@ describe("RNG", () => {
     expect(val1).not.toBe(val2);
   });
 
+  test("should be deterministic with the same string seed", () => {
+    const rng1 = new RNG("abc123");
+    const rng2 = new RNG("abc123");
+    expect(rng1.int(1, 100)).toBe(rng2.int(1, 100));
+    expect(rng1.float(0, 1)).toBe(rng2.float(0, 1));
+  });
+
+  test("should produce different results with different string seeds", () => {
+    const rng1 = new RNG("abc123");
+    const rng2 = new RNG("xyz789");
+    expect(rng1.int(1, 100)).not.toBe(rng2.int(1, 100));
+    expect(rng1.float(0, 1)).not.toBe(rng2.float(0, 1));
+  });
+
   test("global setSeed should affect global functions", () => {
     setSeed(12345);
     const val1 = simple(100);

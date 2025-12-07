@@ -4,12 +4,30 @@
 export class RNG {
   private seed: number;
 
-  constructor(seed: number) {
-    this.seed = seed;
+  constructor(seed: number | string) {
+    if (typeof seed === "string") {
+      this.seed = this.stringToSeed(seed);
+    } else {
+      this.seed = seed;
+    }
   }
 
-  public setSeed(seed: number) {
-    this.seed = seed;
+  private stringToSeed(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  public setSeed(seed: number | string) {
+    if (typeof seed === "string") {
+      this.seed = this.stringToSeed(seed);
+    } else {
+      this.seed = seed;
+    }
   }
 
   public next(): number {
@@ -34,9 +52,9 @@ const globalRng = new RNG(Date.now());
 /**
  * Sets the seed for the global random number generator.
  *
- * @param {Number} seed - The seed to use
+ * @param {Number|String} seed - The seed to use
  */
-export function setSeed(seed: number) {
+export function setSeed(seed: number | string) {
   globalRng.setSeed(seed);
 }
 
