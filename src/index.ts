@@ -7,5 +7,5 @@ export {
     randomSet,
     randomString,
     shuffle,
-} from "./global";
-export { RNG } from "./local";
+} from "./global.js";
+export { RNG } from "./local.js";

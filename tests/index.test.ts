@@ -1,4 +1,5 @@
-import { describe, expect, jest, test } from "@jest/globals";
+import { describe, expect, test } from "vitest";
+
 import {
   RNG,
   bellFloat,
@@ -10,8 +11,6 @@ import {
   simple,
   weighted,
 } from "../src/index";
-
-jest.useFakeTimers();
 
 describe("simple", () => {
   test("should return a number", () => {

@@ -1,4 +1,4 @@
-import { RNG } from "./local";
+import { RNG } from "./local.js";
 
 const globalRng = new RNG(Date.now());
 
