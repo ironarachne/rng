@@ -143,7 +143,7 @@ export function randomString(length: number): string {
  */
 export function shuffle(items: any[]) {
   for (let i = items.length - 1; i > 0; i--) {
-    const j = Math.floor(globalRng.next() * i);
+    const j = Math.floor(globalRng.next() * (i + 1));
     const temp = items[i];
     items[i] = items[j];
     items[j] = temp;
