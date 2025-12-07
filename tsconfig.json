@@ -2,11 +2,11 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
-    "module": "NodeNext",
+    "module": "esnext",
     "outDir": "./dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2021",
+    "target": "es2022",
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "tests", "dist"]

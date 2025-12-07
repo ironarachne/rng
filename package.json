@@ -1,6 +1,6 @@
 {
   "name": "@ironarachne/rng",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Random number generation and selection of items from arrays.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
