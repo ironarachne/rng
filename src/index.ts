@@ -1,4 +1,63 @@
-import random from "random";
+/**
+ * A seeded random number generator.
+ */
+export class RNG {
+  private seed: number;
+
+  constructor(seed: number | string) {
+    if (typeof seed === "string") {
+      this.seed = this.stringToSeed(seed);
+    } else {
+      this.seed = seed;
+    }
+  }
+
+  private stringToSeed(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  public setSeed(seed: number | string) {
+    if (typeof seed === "string") {
+      this.seed = this.stringToSeed(seed);
+    } else {
+      this.seed = seed;
+    }
+  }
+
+  public next(): number {
+    this.seed += 0x6d2b79f5;
+    let t = this.seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+
+  public int(min: number, max: number): number {
+    return Math.floor(this.next() * (max - min + 1)) + min;
+  }
+
+  public float(min: number, max: number): number {
+    return this.next() * (max - min) + min;
+  }
+}
+
+const globalRng = new RNG(Date.now());
+
+/**
+ * Sets the seed for the global random number generator.
+ *
+ * @param {Number|String} seed - The seed to use
+ */
+export function setSeed(seed: number | string) {
+  globalRng.setSeed(seed);
+}
+
 
 /**
  * This function takes a maximum value and returns a random number between 1
@@ -8,7 +67,7 @@ import random from "random";
  * @returns {Number} - A random number between 1 and the maximum value
  */
 export function simple(max: number): number {
-  return random.int(1, max);
+  return globalRng.int(1, max);
 }
 
 /**
@@ -18,7 +77,7 @@ export function simple(max: number): number {
  * @returns {Any} - A random item from the array
  */
 export function item(items: any[]) {
-  return items[random.int(0, items.length - 1)];
+  return items[globalRng.int(0, items.length - 1)];
 }
 
 /**
@@ -35,7 +94,7 @@ export function bellFloat(min: number, max: number): number {
   let result = min;
 
   for (let i = 0; i < 3; i++) {
-    result += random.float(0, divisor);
+    result += globalRng.float(0, divisor);
   }
 
   return result;
@@ -51,10 +110,10 @@ export function bellFloat(min: number, max: number): number {
 export function randomSet(itemCount: number, items: any[]): any[] {
   const result: any = [];
 
-  items = shuffle(items);
+  let itemSet = shuffle(items);
 
   for (let i = 0; i < itemCount; i++) {
-    result.push(items.pop());
+    result.push(itemSet.pop());
   }
 
   return result;
@@ -70,7 +129,7 @@ export function randomString(length: number): string {
   let result = "";
 
   for (let i = 0; i < length; i++) {
-    result += Math.random().toString(36).slice(2)[0];
+    result += globalRng.next().toString(36).slice(2)[0];
   }
 
   return result;
@@ -84,7 +143,7 @@ export function randomString(length: number): string {
  */
 export function shuffle(items: any[]) {
   for (let i = items.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i);
+    const j = Math.floor(globalRng.next() * (i + 1));
     const temp = items[i];
     items[i] = items[j];
     items[j] = temp;
@@ -111,7 +170,7 @@ export function weighted(items: any[]) {
     ceiling += item.commonality;
   }
 
-  let randomValue = random.int(0, ceiling);
+  let randomValue = globalRng.int(0, ceiling);
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
