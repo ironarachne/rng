@@ -1,6 +1,17 @@
 import { RNG } from "./local.js";
 const globalRng = new RNG(Date.now());
 /**
+ * This function takes a minimum and maximum value and returns a random
+ * float between them.
+ *
+ * @param {Number} min - The minimum value to return
+ * @param {Number} max - The maximum value to return
+ * @returns {Number} - A random float between the minimum and maximum values
+ */
+export function float(min, max) {
+    return globalRng.float(min, max);
+}
+/**
  * Sets the seed for the global random number generator.
  *
  * @param {Number|String} seed - The seed to use
@@ -17,6 +28,17 @@ export function setSeed(seed) {
  */
 export function simple(max) {
     return globalRng.int(1, max);
+}
+/**
+ * This function takes a minimum and maximum value and returns a random
+ * integer between them.
+ *
+ * @param {Number} min - The minimum value to return
+ * @param {Number} max - The maximum value to return
+ * @returns {Number} - A random integer between the minimum and maximum values
+ */
+export function int(min, max) {
+    return globalRng.int(min, max);
 }
 /**
  * This function takes an array and returns a random item from it.

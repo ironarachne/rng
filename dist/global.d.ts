@@ -1,4 +1,13 @@
 /**
+ * This function takes a minimum and maximum value and returns a random
+ * float between them.
+ *
+ * @param {Number} min - The minimum value to return
+ * @param {Number} max - The maximum value to return
+ * @returns {Number} - A random float between the minimum and maximum values
+ */
+export declare function float(min: number, max: number): number;
+/**
  * Sets the seed for the global random number generator.
  *
  * @param {Number|String} seed - The seed to use
@@ -12,6 +21,15 @@ export declare function setSeed(seed: number | string): void;
  * @returns {Number} - A random number between 1 and the maximum value
  */
 export declare function simple(max: number): number;
+/**
+ * This function takes a minimum and maximum value and returns a random
+ * integer between them.
+ *
+ * @param {Number} min - The minimum value to return
+ * @param {Number} max - The maximum value to return
+ * @returns {Number} - A random integer between the minimum and maximum values
+ */
+export declare function int(min: number, max: number): number;
 /**
  * This function takes an array and returns a random item from it.
  *
