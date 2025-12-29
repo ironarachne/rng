@@ -38,7 +38,17 @@ console.log(rng2.item(['apple', 'banana', 'cherry']));
 - **`randomSet(count, array)`**: Returns a new array containing `count` unique items selected randomly from the source array.
 - **`randomString(length)`**: Generates a random alphanumeric string of the specified length.
 - **`shuffle(array)`**: Shuffles the given array in place using the Fisher-Yates algorithm.
-- **`weighted(items)`**: Selects an item from an array of objects, where each object has a `commonality` number property. Items with higher `commonality` are more likely to be chosen.
+- **`simple(max)`**: Returns a random float between 1 and `max`.
+- **`weighted(items)`**: Selects a value from an array of `WeightedEntry` objects. Each entry must have a `value` and a `commonality` (weight). Returns the `value` of the selected entry.
+
+```typescript
+const lootTable = [
+  { value: 'gold', commonality: 10 },
+  { value: 'silver', commonality: 50 },
+  { value: 'copper', commonality: 100 }
+];
+const loot = rng.weighted(lootTable); // Returns 'gold', 'silver', or 'copper'
+```
 
 ### Global Convenience Functions
 
@@ -55,15 +65,15 @@ const fruit = item(['apple', 'banana', 'cherry']);
 ```
 
 Available global functions:
-- `setSeed(seed)`
-- `simple(max)` (Returns 1 to max)
-- `int(min, max)`
-- `float(min, max)`
 - `bellFloat(min, max)`
+- `float(min, max)`
+- `int(min, max)`
 - `item(array)`
 - `randomSet(count, array)`
 - `randomString(length)`
+- `setSeed(seed)`
 - `shuffle(array)`
+- `simple(max)` (Returns 1 to max)
 - `weighted(items)`
 
 ## Development

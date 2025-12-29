@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 
 import {
-  RNG,
   bellFloat,
   item,
+  RNG,
   randomSet,
   randomString,
   setSeed,
@@ -117,8 +117,8 @@ describe("shuffle", () => {
 describe("weighted", () => {
   test("should return an item based on weights", () => {
     const items = [
-      { name: "common", commonality: 100 },
-      { name: "rare", commonality: 1 },
+      { value: "common", commonality: 100 },
+      { value: "rare", commonality: 1 },
     ];
 
     // With a high weight difference, we expect "common" most of the time.
@@ -127,7 +127,7 @@ describe("weighted", () => {
 
     const result = weighted(items);
     expect(result).toBeDefined();
-    expect(items).toContain(result);
+    expect(["common", "rare"]).toContain(result);
   });
 
   test("should throw error if items is empty", () => {

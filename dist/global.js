@@ -1,12 +1,11 @@
 import { RNG } from "./local.js";
 const globalRng = new RNG(Date.now());
 /**
- * This function takes a minimum and maximum value and returns a random
- * float between them.
+ * Returns a random float between min and max.
  *
- * @param {Number} min - The minimum value to return
- * @param {Number} max - The maximum value to return
- * @returns {Number} - A random float between the minimum and maximum values
+ * @param min - The minimum value.
+ * @param max - The maximum value.
+ * @returns A random float between min and max.
  */
 export function float(min, max) {
     return globalRng.float(min, max);
@@ -14,48 +13,45 @@ export function float(min, max) {
 /**
  * Sets the seed for the global random number generator.
  *
- * @param {Number|String} seed - The seed to use
+ * @param seed - The seed to use. Can be a number or a string.
  */
 export function setSeed(seed) {
     globalRng.setSeed(seed);
 }
 /**
- * This function takes a maximum value and returns a random number between 1
- * and that value.
+ * Returns a random integer between 1 and max.
  *
- * @param {Number} max - The maximum value to return
- * @returns {Number} - A random number between 1 and the maximum value
+ * @param max - The maximum value.
+ * @returns A random integer between 1 and max.
  */
 export function simple(max) {
     return globalRng.int(1, max);
 }
 /**
- * This function takes a minimum and maximum value and returns a random
- * integer between them.
+ * Returns a random integer between min and max.
  *
- * @param {Number} min - The minimum value to return
- * @param {Number} max - The maximum value to return
- * @returns {Number} - A random integer between the minimum and maximum values
+ * @param min - The minimum value.
+ * @param max - The maximum value.
+ * @returns A random integer between min and max.
  */
 export function int(min, max) {
     return globalRng.int(min, max);
 }
 /**
- * This function takes an array and returns a random item from it.
+ * Returns a random item from an array.
  *
- * @param {Array} items - The array to get the item from
- * @returns {Any} - A random item from the array
+ * @param items - The array to get the item from.
+ * @returns A random item from the array.
  */
 export function item(items) {
     return items[globalRng.int(0, items.length - 1)];
 }
 /**
- * This function takes a minimum and maximum value and returns a random float
- * between them, weighted towards the middle.
+ * Returns a random float between min and max, weighted towards the middle.
  *
- * @param {Number} min - The minimum value to return
- * @param {Number} max - The maximum value to return
- * @returns {Number} - A random float between the minimum and maximum values
+ * @param min - The minimum value.
+ * @param max - The maximum value.
+ * @returns A random float between min and max.
  */
 export function bellFloat(min, max) {
     const divisor = (max - min) / 3;
@@ -66,25 +62,25 @@ export function bellFloat(min, max) {
     return result;
 }
 /**
- * This function takes an array and returns a random set of items from it.
+ * Returns a random set of items from an array.
  *
- * @param {Number} itemCount - The number of items to return
- * @param {Array} items - The array to get the items from
- * @returns {Array} - A random set of items from the array
+ * @param itemCount - The number of items to return.
+ * @param items - The array to get the items from.
+ * @returns A random set of items from the array.
  */
 export function randomSet(itemCount, items) {
     const result = [];
-    let itemSet = shuffle(items);
+    const itemSet = shuffle(items);
     for (let i = 0; i < itemCount; i++) {
         result.push(itemSet.pop());
     }
     return result;
 }
 /**
- * This function takes a length and returns a random string of that length.
+ * Returns a random string of the specified length.
  *
- * @param {Number} length - The length of the string to return
- * @returns {String} - A random string of the specified length
+ * @param length - The length of the string to return.
+ * @returns A random string of the specified length.
  */
 export function randomString(length) {
     let result = "";
@@ -94,10 +90,10 @@ export function randomString(length) {
     return result;
 }
 /**
- * This function takes an array and returns a shuffled version of it.
+ * Returns a shuffled version of an array.
  *
- * @param {Array} items - An array of items to shuffle
- * @returns {Array} - A shuffled version of the array
+ * @param items - An array of items to shuffle.
+ * @returns A shuffled version of the array.
  */
 export function shuffle(items) {
     for (let i = items.length - 1; i > 0; i--) {
@@ -109,16 +105,15 @@ export function shuffle(items) {
     return items;
 }
 /**
- * This function takes an array of objects with a commonality property
- * and returns a random result, weighted by the commonality property.
+ * Returns a random item from a weighted list.
  *
- * @param {Array} items - An array of objects with a commonality property
- * @returns {Object} - A random object from the array, weighted by the commonality property
+ * @param items - An array of weighted entries.
+ * @returns A random item from the list, selected based on weight.
  */
 export function weighted(items) {
     let ceiling = 0;
     if (items.length === 1) {
-        return items[0];
+        return items[0].value;
     }
     for (const item of items) {
         ceiling += item.commonality;
@@ -128,7 +123,7 @@ export function weighted(items) {
         const item = items[i];
         randomValue -= item.commonality;
         if (randomValue <= 0) {
-            return item;
+            return item.value;
         }
     }
     throw new Error(`Tried to get weighted result from array with length ${items.length}, failed to get anything back`);

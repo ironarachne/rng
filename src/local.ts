@@ -1,9 +1,15 @@
+import type { WeightedEntry } from "./types.js";
+
 /**
  * A seeded random number generator.
  */
 export class RNG {
   private seed: number;
 
+  /**
+   * Creates a new RNG instance.
+   * @param seed The seed to use. Can be a number or a string.
+   */
   constructor(seed: number | string) {
     if (typeof seed === "string") {
       this.seed = this.stringToSeed(seed);
@@ -22,6 +28,10 @@ export class RNG {
     return hash;
   }
 
+  /**
+   * Sets the seed for the random number generator.
+   * @param seed The seed to use. Can be a number or a string.
+   */
   public setSeed(seed: number | string) {
     if (typeof seed === "string") {
       this.seed = this.stringToSeed(seed);
@@ -30,6 +40,10 @@ export class RNG {
     }
   }
 
+  /**
+   * Generates the next random number in the sequence.
+   * @returns A random number between 0 and 1.
+   */
   public next(): number {
     this.seed += 0x6d2b79f5;
     let t = this.seed;
@@ -38,10 +52,22 @@ export class RNG {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   }
 
+  /**
+   * Returns a random integer between min and max (inclusive).
+   * @param min The minimum value.
+   * @param max The maximum value.
+   * @returns A random integer between min and max.
+   */
   public int(min: number, max: number): number {
     return Math.floor(this.next() * (max - min + 1)) + min;
   }
 
+  /**
+   * Returns a random float between min and max, with a bell curve distribution.
+   * @param min The minimum value.
+   * @param max The maximum value.
+   * @returns A random float between min and max.
+   */
   public bellFloat(min: number, max: number): number {
     const divisor = (max - min) / 3;
 
@@ -54,18 +80,35 @@ export class RNG {
     return result;
   }
 
+  /**
+   * Returns a random float between min and max.
+   * @param min The minimum value.
+   * @param max The maximum value.
+   * @returns A random float between min and max.
+   */
   public float(min: number, max: number): number {
     return this.next() * (max - min) + min;
   }
 
+  /**
+   * Returns a random item from an array.
+   * @param items The array of items.
+   * @returns A random item from the array.
+   */
   public item<T>(items: T[]): T {
     return items[this.int(0, items.length - 1)];
   }
 
+  /**
+   * Returns a random set of items from an array.
+   * @param itemCount The number of items to return.
+   * @param items The array of items.
+   * @returns An array of random items from the original array.
+   */
   public randomSet<T>(itemCount: number, items: T[]): T[] {
     const result: T[] = [];
 
-    let itemSet = this.shuffle([...items]);
+    const itemSet = this.shuffle([...items]);
 
     for (let i = 0; i < itemCount; i++) {
       result.push(itemSet.pop() as T);
@@ -74,6 +117,11 @@ export class RNG {
     return result;
   }
 
+  /**
+   * Returns a random string of the specified length.
+   * @param length The length of the string.
+   * @returns A random string.
+   */
   public randomString(length: number): string {
     let result = "";
 
@@ -84,6 +132,11 @@ export class RNG {
     return result;
   }
 
+  /**
+   * Shuffles an array in place.
+   * @param items The array to shuffle.
+   * @returns The shuffled array.
+   */
   public shuffle<T>(items: T[]): T[] {
     for (let i = items.length - 1; i > 0; i--) {
       const j = Math.floor(this.next() * (i + 1));
@@ -94,11 +147,25 @@ export class RNG {
     return items;
   }
 
-  public weighted<T extends { commonality: number }>(items: T[]): T {
+  /**
+   * Returns a random integer between 1 and max.
+   * @param max The maximum value.
+   * @returns A random integer between 1 and max.
+   */
+  public simple(max: number): number {
+    return this.int(1, max);
+  }
+
+  /**
+   * Returns a random item from a weighted list.
+   * @param items The list of weighted entries.
+   * @returns A random item from the list, selected based on weight.
+   */
+  public weighted<T>(items: WeightedEntry<T>[]): T {
     let ceiling = 0;
 
     if (items.length === 1) {
-      return items[0];
+      return items[0].value;
     }
 
     for (const item of items) {
@@ -111,7 +178,7 @@ export class RNG {
       const item = items[i];
       randomValue -= item.commonality;
       if (randomValue <= 0) {
-        return item;
+        return item.value;
       }
     }
 
