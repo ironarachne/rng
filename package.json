@@ -9,7 +9,7 @@
     "biome": "biome ci src/*.ts",
     "biome-fix": "biome check --fix src/*.ts",
     "build": "tsc",
-    "docs": "typedoc --out docs src/index.ts",
+    "docs": "typedoc --out pages src/index.ts",
     "test": "vitest run"
   },
   "repository": {
