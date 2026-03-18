@@ -1,7 +1,7 @@
 {
   "name": "@ironarachne/rng",
-  "version": "2.3.0",
-  "description": "Random number generation and selection of items from arrays.",
+  "version": "2.3.1",
+  "description": "A library for random number generation and various random ways of selecting items from arrays.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -14,17 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ironarachne/rng.git"
+    "url": "git+https://codeberg.org/ironarachne/rng.git"
   },
   "keywords": [
+    "ironarachne",
     "random"
   ],
   "author": "Ben Overmyer <ben@overmyer.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ironarachne/rng/issues"
+    "url": "https://codeberg.org/ironarachne/rng/issues"
   },
-  "homepage": "https://github.com/ironarachne/rng#readme",
+  "homepage": "https://rng.ironarachne.com/docs",
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-typescript": "^7.22.5",
