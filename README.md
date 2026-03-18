@@ -4,6 +4,8 @@ A comprehensive random number generation library for TypeScript and JavaScript. 
 
 Note that this is not meant for cryptography and should not be considered "safe" for such purposes.
 
+Documentation available at: [rng.ironarachne.com](https://rng.ironarachne.com/docs)
+
 ## Installation
 
 ```bash
