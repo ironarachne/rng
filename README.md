@@ -37,11 +37,11 @@ console.log(rng2.item(['apple', 'banana', 'cherry']));
 - **`float(min, max)`**: Returns a random float between `min` and `max`.
 - **`bellFloat(min, max)`**: Returns a random float between `min` and `max` with a bell-curve distribution (approximated by summing 3 random floats).
 - **`item(array)`**: Returns a random item from the given array.
-- **`randomSet(count, array)`**: Returns a new array containing `count` unique items selected randomly from the source array.
+- **`randomSet(count, array)`**: Returns a new array containing `count` unique items selected randomly from the source array. The source array is not modified. Throws an error if `count` exceeds the source array's length.
 - **`randomString(length)`**: Generates a random alphanumeric string of the specified length.
 - **`shuffle(array)`**: Shuffles the given array in place using the Fisher-Yates algorithm.
 - **`simple(max)`**: Returns a random float between 1 and `max`.
-- **`weighted(items)`**: Selects a value from an array of `WeightedEntry` objects. Each entry must have a `value` and a `commonality` (weight). Returns the `value` of the selected entry.
+- **`weighted(items)`**: Selects a value from an array of `WeightedEntry` objects. Each entry must have a `value` and a `commonality` (weight). Weights must be non-negative finite numbers; an entry with a weight of `0` is never selected, and fractional weights are supported. Returns the `value` of the selected entry. Throws an error if the list is empty, a weight is negative, `NaN`, or infinite, or the total weight is zero.
 
 ```typescript
 const lootTable = [

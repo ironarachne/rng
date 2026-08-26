@@ -1,3 +1,4 @@
+const ALPHANUMERIC = "0123456789abcdefghijklmnopqrstuvwxyz";
 /**
  * A seeded random number generator.
  */
@@ -88,12 +89,16 @@ export class RNG {
         return items[this.int(0, items.length - 1)];
     }
     /**
-     * Returns a random set of items from an array.
+     * Returns a random set of items from an array. The input array is not modified.
      * @param itemCount The number of items to return.
      * @param items The array of items.
      * @returns An array of random items from the original array.
+     * @throws If itemCount exceeds the length of items.
      */
     randomSet(itemCount, items) {
+        if (itemCount > items.length) {
+            throw new Error(`randomSet(): itemCount (${itemCount}) exceeds array length (${items.length})`);
+        }
         const result = [];
         const itemSet = this.shuffle([...items]);
         for (let i = 0; i < itemCount; i++) {
@@ -104,12 +109,12 @@ export class RNG {
     /**
      * Returns a random string of the specified length.
      * @param length The length of the string.
-     * @returns A random string.
+     * @returns A random alphanumeric string.
      */
     randomString(length) {
         let result = "";
         for (let i = 0; i < length; i++) {
-            result += this.next().toString(36).slice(2)[0];
+            result += ALPHANUMERIC[this.int(0, 35)];
         }
         return result;
     }
@@ -137,25 +142,32 @@ export class RNG {
     }
     /**
      * Returns a random item from a weighted list.
-     * @param items The list of weighted entries.
+     * @param items The list of weighted entries. Weights must be non-negative
+     * finite numbers; entries with a weight of zero are never selected.
      * @returns A random item from the list, selected based on weight.
+     * @throws If the list is empty, a weight is negative, NaN, or infinite, or the total weight is zero.
      */
     weighted(items) {
-        let ceiling = 0;
-        if (items.length === 1) {
-            return items[0].value;
+        if (items.length === 0) {
+            throw new Error("weighted(): items must not be empty");
         }
+        let total = 0;
         for (const item of items) {
-            ceiling += item.commonality;
+            if (!Number.isFinite(item.commonality) || item.commonality < 0) {
+                throw new Error("weighted(): commonality must be a non-negative finite number");
+            }
+            total += item.commonality;
         }
-        let randomValue = this.int(0, ceiling);
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
+        if (!Number.isFinite(total) || total <= 0) {
+            throw new Error("weighted(): total weight must be positive and finite");
+        }
+        let randomValue = this.next() * total;
+        for (const item of items) {
             randomValue -= item.commonality;
-            if (randomValue <= 0) {
+            if (randomValue < 0) {
                 return item.value;
             }
         }
-        throw new Error(`Tried to get weighted result from array with length ${items.length}, failed to get anything back`);
+        return items[items.length - 1].value;
     }
 }

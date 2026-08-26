@@ -30,7 +30,7 @@ export function setSeed(seed: number | string) {
  * @returns A random integer between 1 and max.
  */
 export function simple(max: number): number {
-  return globalRng.int(1, max);
+  return globalRng.simple(max);
 }
 
 /**
@@ -50,8 +50,8 @@ export function int(min: number, max: number): number {
  * @param items - The array to get the item from.
  * @returns A random item from the array.
  */
-export function item(items: any[]) {
-  return items[globalRng.int(0, items.length - 1)];
+export function item<T>(items: T[]): T {
+  return globalRng.item(items);
 }
 
 /**
@@ -62,67 +62,39 @@ export function item(items: any[]) {
  * @returns A random float between min and max.
  */
 export function bellFloat(min: number, max: number): number {
-  const divisor = (max - min) / 3;
-
-  let result = min;
-
-  for (let i = 0; i < 3; i++) {
-    result += globalRng.float(0, divisor);
-  }
-
-  return result;
+  return globalRng.bellFloat(min, max);
 }
 
 /**
- * Returns a random set of items from an array.
+ * Returns a random set of items from an array. The input array is not modified.
  *
  * @param itemCount - The number of items to return.
  * @param items - The array to get the items from.
  * @returns A random set of items from the array.
+ * @throws If itemCount exceeds the length of items.
  */
-export function randomSet(itemCount: number, items: any[]): any[] {
-  const result: any = [];
-
-  const itemSet = shuffle(items);
-
-  for (let i = 0; i < itemCount; i++) {
-    result.push(itemSet.pop());
-  }
-
-  return result;
+export function randomSet<T>(itemCount: number, items: T[]): T[] {
+  return globalRng.randomSet(itemCount, items);
 }
 
 /**
  * Returns a random string of the specified length.
  *
  * @param length - The length of the string to return.
- * @returns A random string of the specified length.
+ * @returns A random alphanumeric string of the specified length.
  */
 export function randomString(length: number): string {
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    result += globalRng.next().toString(36).slice(2)[0];
-  }
-
-  return result;
+  return globalRng.randomString(length);
 }
 
 /**
- * Returns a shuffled version of an array.
+ * Shuffles an array in place.
  *
  * @param items - An array of items to shuffle.
- * @returns A shuffled version of the array.
+ * @returns The shuffled array.
  */
 export function shuffle<T>(items: T[]): T[] {
-  for (let i = items.length - 1; i > 0; i--) {
-    const j = Math.floor(globalRng.next() * (i + 1));
-    const temp = items[i];
-    items[i] = items[j];
-    items[j] = temp;
-  }
-
-  return items;
+  return globalRng.shuffle(items);
 }
 
 /**
@@ -130,29 +102,8 @@ export function shuffle<T>(items: T[]): T[] {
  *
  * @param items - An array of weighted entries.
  * @returns A random item from the list, selected based on weight.
+ * @throws If the list is empty, a weight is invalid, or the total weight is zero.
  */
 export function weighted<T>(items: WeightedEntry<T>[]): T {
-  let ceiling = 0;
-
-  if (items.length === 1) {
-    return items[0].value;
-  }
-
-  for (const item of items) {
-    ceiling += item.commonality;
-  }
-
-  let randomValue = globalRng.int(0, ceiling);
-
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    randomValue -= item.commonality;
-    if (randomValue <= 0) {
-      return item.value;
-    }
-  }
-
-  throw new Error(
-    `Tried to get weighted result from array with length ${items.length}, failed to get anything back`,
-  );
+  return globalRng.weighted(items);
 }

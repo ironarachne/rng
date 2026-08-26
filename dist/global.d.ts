@@ -34,7 +34,7 @@ export declare function int(min: number, max: number): number;
  * @param items - The array to get the item from.
  * @returns A random item from the array.
  */
-export declare function item(items: any[]): any;
+export declare function item<T>(items: T[]): T;
 /**
  * Returns a random float between min and max, weighted towards the middle.
  *
@@ -44,25 +44,26 @@ export declare function item(items: any[]): any;
  */
 export declare function bellFloat(min: number, max: number): number;
 /**
- * Returns a random set of items from an array.
+ * Returns a random set of items from an array. The input array is not modified.
  *
  * @param itemCount - The number of items to return.
  * @param items - The array to get the items from.
  * @returns A random set of items from the array.
+ * @throws If itemCount exceeds the length of items.
  */
-export declare function randomSet(itemCount: number, items: any[]): any[];
+export declare function randomSet<T>(itemCount: number, items: T[]): T[];
 /**
  * Returns a random string of the specified length.
  *
  * @param length - The length of the string to return.
- * @returns A random string of the specified length.
+ * @returns A random alphanumeric string of the specified length.
  */
 export declare function randomString(length: number): string;
 /**
- * Returns a shuffled version of an array.
+ * Shuffles an array in place.
  *
  * @param items - An array of items to shuffle.
- * @returns A shuffled version of the array.
+ * @returns The shuffled array.
  */
 export declare function shuffle<T>(items: T[]): T[];
 /**
@@ -70,5 +71,6 @@ export declare function shuffle<T>(items: T[]): T[];
  *
  * @param items - An array of weighted entries.
  * @returns A random item from the list, selected based on weight.
+ * @throws If the list is empty, a weight is invalid, or the total weight is zero.
  */
 export declare function weighted<T>(items: WeightedEntry<T>[]): T;

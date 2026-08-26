@@ -48,16 +48,17 @@ export declare class RNG {
      */
     item<T>(items: T[]): T;
     /**
-     * Returns a random set of items from an array.
+     * Returns a random set of items from an array. The input array is not modified.
      * @param itemCount The number of items to return.
      * @param items The array of items.
      * @returns An array of random items from the original array.
+     * @throws If itemCount exceeds the length of items.
      */
     randomSet<T>(itemCount: number, items: T[]): T[];
     /**
      * Returns a random string of the specified length.
      * @param length The length of the string.
-     * @returns A random string.
+     * @returns A random alphanumeric string.
      */
     randomString(length: number): string;
     /**
@@ -74,8 +75,10 @@ export declare class RNG {
     simple(max: number): number;
     /**
      * Returns a random item from a weighted list.
-     * @param items The list of weighted entries.
+     * @param items The list of weighted entries. Weights must be non-negative
+     * finite numbers; entries with a weight of zero are never selected.
      * @returns A random item from the list, selected based on weight.
+     * @throws If the list is empty, a weight is negative, NaN, or infinite, or the total weight is zero.
      */
     weighted<T>(items: WeightedEntry<T>[]): T;
 }
