@@ -50,13 +50,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          # npm 11.5.1+ is required to exchange the OIDC token for a
+          # publish credential. Node 24.x bundles it; Node 22.x ships npm 10.
+          node-version: 24.x
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
+
+      # Authenticates via OIDC using the trusted publisher configured on
+      # npmjs.com for this repository and workflow. No token involved.
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   github-release:
     name: GitHub Release
