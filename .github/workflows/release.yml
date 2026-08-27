@@ -48,13 +48,16 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      # registry-url is deliberately omitted. It makes setup-node write an
+      # .npmrc holding a NODE_AUTH_TOKEN placeholder and a deprecated
+      # always-auth key, neither of which trusted publishing uses. npm
+      # already defaults to registry.npmjs.org.
       - uses: actions/setup-node@v4
         with:
           # npm 11.5.1+ is required to exchange the OIDC token for a
           # publish credential. Node 24.x bundles it; Node 22.x ships npm 10.
           node-version: 24.x
           cache: npm
-          registry-url: https://registry.npmjs.org
       - run: npm ci
 
       # Authenticates via OIDC using the trusted publisher configured on
