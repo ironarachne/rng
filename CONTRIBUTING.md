@@ -114,13 +114,24 @@ Separately, every push to `main` rebuilds the TypeDoc site and deploys it to
 
 ### One-time maintainer setup
 
-The release workflow needs these configured in the repository settings:
+The release workflow needs these configured before the first tagged release:
 
-- **`NPM_TOKEN`** — an npm automation token with publish rights on the
-  `@ironarachne` scope, stored as a secret on the `release` environment.
-  (Alternatively, configure npm [trusted publishing](https://docs.npmjs.com/trusted-publishers)
-  for this repository and drop the token entirely; the workflow already
-  requests the `id-token` permission it needs.)
+- **npm trusted publishing** — on npmjs.com, under the `@ironarachne/rng`
+  package settings, add a trusted publisher with:
+
+  | Field            | Value         |
+  | ---------------- | ------------- |
+  | Organization     | `ironarachne` |
+  | Repository       | `rng`         |
+  | Workflow         | `release.yml` |
+  | Environment      | `release`     |
+
+  The workflow filename is the basename only — not a path. The environment
+  must read `release` to match the `publish` job, or be left blank.
+
+  This replaces a long-lived `NPM_TOKEN`: the workflow authenticates over
+  OIDC, so there is no publish secret stored in the repository at all.
+
 - **Pages** — Settings → Pages → Source set to **GitHub Actions**.
 - The `release` environment, which you can use to require manual approval
   before a publish goes out.
