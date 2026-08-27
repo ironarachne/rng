@@ -85,19 +85,30 @@ than opening a public issue.
 
 ## Releasing
 
-Releases are automated. Maintainers cut one by tagging `main`:
+Releases are automated. Maintainers cut one by tagging `main`.
+
+If you use Claude Code, `/release <patch|minor|major>` drives the whole
+sequence below and verifies the result; `.claude/skills/release/SKILL.md` is
+the source of truth for it. The manual steps are:
 
 1. Land everything intended for the release on `main`.
-2. Bump the version, which creates the matching tag:
+2. Bump the version on a branch. `--no-git-tag-version` matters: `main` is
+   protected, so the bump has to merge before the tag can point at it.
 
    ```bash
-   npm version minor   # or patch / major
+   git checkout -b release/3.1.0
+   npm version 3.1.0 --no-git-tag-version
+   git commit -aq -m "chore: release 3.1.0"
+   git push -u origin release/3.1.0
    ```
 
-3. Push the commit and the tag:
+3. Open a pull request for it and merge once CI is green.
+4. Tag the merged commit on `main` and push the tag:
 
    ```bash
-   git push origin main --follow-tags
+   git checkout main && git pull
+   git tag -a v3.1.0 -m "Release 3.1.0"
+   git push origin v3.1.0
    ```
 
 Pushing a `v*` tag triggers `.github/workflows/release.yml`, which:
