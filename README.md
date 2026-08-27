@@ -80,58 +80,38 @@ Available global functions:
 
 ## Development
 
-This project uses TypeScript.
-
 ### Setup
 
-1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-### Building
-
-To build the project:
+Node 20 or newer is required.
 
 ```bash
-npm run build
+git clone https://github.com/ironarachne/rng.git
+cd rng
+npm install
 ```
 
-### Testing
+### Commands
 
-Tests are written using [Vitest](https://vitest.dev/).
+| Command            | What it does                                    |
+| ------------------ | ----------------------------------------------- |
+| `npm run check`    | Lint, build, and test — run this before pushing. |
+| `npm test`         | Run the [Vitest](https://vitest.dev/) suite.     |
+| `npm run lint`     | Check formatting and lint rules with [Biome](https://biomejs.dev/). |
+| `npm run lint:fix` | Apply formatting and safe lint fixes.            |
+| `npm run build`    | Compile TypeScript to `dist/`.                   |
+| `npm run docs`     | Generate the TypeDoc site into `docs/`.          |
 
-```bash
-npm test
-```
-
-### Linting and Formatting
-
-This project uses [Biome](https://biomejs.dev/) for linting and formatting.
-
-```bash
-npm run biome
-```
-
-### Documentation
-
-Generate documentation using TypeDoc:
-
-```bash
-npm run docs
-```
+`dist/` and `docs/` are generated output and are not committed.
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the pull
+request process and [CODE_STYLE.md](CODE_STYLE.md) for the conventions this
+codebase follows.
 
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Write code and add tests.
-4. Ensure all tests pass and the code is linted.
-5. Submit a pull request.
+In short: branch from `main`, run `npm run check`, and open a pull request.
+`main` is protected, so every change lands through review with CI green.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
